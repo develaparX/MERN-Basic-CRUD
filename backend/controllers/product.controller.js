@@ -30,22 +30,22 @@ export const createProducts = async (req,res)=>{
 
 }
 
-export const updateProducts =async(req,res)=>{
-    const {id} = req.params;
-    const productUpdate = req.body;
+export const updateProduct = async (req, res) => {
+	const { id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({status: false, message: "Invalid Product Id"});
-    }
+	const product = req.body;
 
-    try {
-        const updatedProduct = await Product.findByIdAndUpdate(id, productUpdate,{new:true});
-        res.status(200).json({status: true, message: updatedProduct});
-    } catch (error) {
-        console.error("Error in Update Product:", error.message)
-        res.status(500).json({status: false, message: "Server Error"})
-    }
-}
+	if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).json({ success: false, message: "Invalid Product Id" });
+	}
+
+	try {
+		const updatedProduct = await Product.findByIdAndUpdate(id, product, { new: true });
+		res.status(200).json({ success: true, data: updatedProduct });
+	} catch (error) {
+		res.status(500).json({ success: false, message: "Server Error" });
+	}
+};
 
 export const deleteProducts = async(req,res)=>{
     const {id}=req.params;
